@@ -26,41 +26,14 @@
 @implementation CalculatorViewController
 
 @synthesize variableValues = _variableValues;
-@synthesize variableValuesTest1 = _variableValuesTest1;
-@synthesize variableValuesTest2 = _variableValuesTest2;
-@synthesize variableValuesTest3 = _variableValuesTest3;
 @synthesize display = _display;
 @synthesize displayLog = _displayLog;
 @synthesize displayEqual = _displayEqual;
 @synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
 @synthesize brain = _brain;
 
-- (NSDictionary *)variableValuesTest1 {
-    if(!_variableValuesTest1) _variableValuesTest1 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                      [NSNumber numberWithDouble: 3.0], @"x",
-                                                      [NSNumber numberWithDouble: 5.0], @"a",
-                                                      [NSNumber numberWithDouble: 2.0], @"b", nil];
-    return _variableValuesTest1;
-}
-
-- (NSDictionary *)variableValuesTest2 {
-    if(!_variableValuesTest2) _variableValuesTest2 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                      [NSNumber numberWithDouble: 10.0], @"x",
-                                                      [NSNumber numberWithDouble: 6.0], @"a",
-                                                      [NSNumber numberWithDouble: 1.0], @"b", nil];
-    return _variableValuesTest2;
-}
-
-- (NSDictionary *)variableValuesTest3 {
-    if(!_variableValuesTest3) _variableValuesTest3 = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                                      [NSNumber numberWithDouble: 8.0], @"x",
-                                                      [NSNumber numberWithDouble: 20.0], @"a",
-                                                      [NSNumber numberWithDouble: 4.0], @"b", nil];
-    return _variableValuesTest3;
-}
-
 - (NSDictionary *)variableValues {
-    if(!_variableValues) _variableValues = self.variableValuesTest1;
+    if(!_variableValues) _variableValues = [[NSDictionary alloc]initWithObjectsAndKeys: [NSNumber numberWithDouble: 3.0], @"x", nil];
     return _variableValues;
 }
 
@@ -83,7 +56,6 @@
         if ([digit compare: @"."] != NSOrderedSame
                 || [self.display.text rangeOfString: @"."].location == NSNotFound) {
              self.display.text = [self.display.text stringByAppendingString: digit];
-             
         }
     } else {
         self.userIsInTheMiddleOfEnteringANumber = YES;
@@ -124,18 +96,6 @@
     [self displayEquation:self.display.text];
     self.displayLog.text = [[self.brain class] descriptionOfProgram:self.brain.program];
     self.displayEqual.text = @"";    
-}
-
-- (IBAction)changeVariablesPressed:(UIButton *)sender {
-    NSString *testVarName = sender.currentTitle;
-    if ([testVarName isEqualToString: @"Test1"]) {
-        self.variableValues = self.variableValuesTest1;
-    } else if ([testVarName isEqualToString: @"Test2"]) {
-        self.variableValues = self.variableValuesTest2;
-    } else if ([testVarName isEqualToString: @"Test3"]) {
-        self.variableValues = self.variableValuesTest3;
-    }
-    [self runProgram];    
 }
 
 - (IBAction)variablePressed:(UIButton *)sender {
