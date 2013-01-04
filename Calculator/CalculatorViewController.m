@@ -1,0 +1,188 @@
+//
+//  CalculatorViewController.m
+//  Calculator
+//
+//  Created by Richard To on 12/28/12.
+//  Copyright (c) 2012 Richard To. All rights reserved.
+//
+
+#import "CalculatorViewController.h"
+#import "CalculatorBrain.h"
+
+@interface CalculatorViewController ()
+
+@property (nonatomic) BOOL userIsInTheMiddleOfEnteringANumber;
+@property (nonatomic, strong) CalculatorBrain *brain;
+@property (nonatomic, strong) NSDictionary *variableValues;
+@property (nonatomic, strong) NSDictionary *variableValuesTest1;
+@property (nonatomic, strong) NSDictionary *variableValuesTest2;
+@property (nonatomic, strong) NSDictionary *variableValuesTest3;
+
+- (void)displayEquation:(NSString *)anOperatorOrOperand;
+- (void)runProgram;
+- (void)displayVariablesToScreen;
+@end
+
+@implementation CalculatorViewController
+
+@synthesize variableValues = _variableValues;
+@synthesize variableValuesTest1 = _variableValuesTest1;
+@synthesize variableValuesTest2 = _variableValuesTest2;
+@synthesize variableValuesTest3 = _variableValuesTest3;
+@synthesize display = _display;
+@synthesize displayLog = _displayLog;
+@synthesize displayEqual = _displayEqual;
+@synthesize userIsInTheMiddleOfEnteringANumber = _userIsInTheMiddleOfEnteringANumber;
+@synthesize brain = _brain;
+
+- (NSDictionary *)variableValuesTest1 {
+    if(!_variableValuesTest1) _variableValuesTest1 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                      [NSNumber numberWithDouble: 3.0], @"x",
+                                                      [NSNumber numberWithDouble: 5.0], @"a",
+                                                      [NSNumber numberWithDouble: 2.0], @"b", nil];
+    return _variableValuesTest1;
+}
+
+- (NSDictionary *)variableValuesTest2 {
+    if(!_variableValuesTest2) _variableValuesTest2 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                      [NSNumber numberWithDouble: 10.0], @"x",
+                                                      [NSNumber numberWithDouble: 6.0], @"a",
+                                                      [NSNumber numberWithDouble: 1.0], @"b", nil];
+    return _variableValuesTest2;
+}
+
+- (NSDictionary *)variableValuesTest3 {
+    if(!_variableValuesTest3) _variableValuesTest3 = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                                      [NSNumber numberWithDouble: 8.0], @"x",
+                                                      [NSNumber numberWithDouble: 20.0], @"a",
+                                                      [NSNumber numberWithDouble: 4.0], @"b", nil];
+    return _variableValuesTest3;
+}
+
+- (NSDictionary *)variableValues {
+    if(!_variableValues) _variableValues = self.variableValuesTest1;
+    return _variableValues;
+}
+
+- (CalculatorBrain *)brain {
+    if(!_brain) _brain = [[CalculatorBrain alloc] init];
+    return _brain;
+}
+
+- (void)displayEquation:(NSString *)anOperatorOrOperand {
+    if (self.displayLog.text.length > 0) {
+        self.displayLog.text = [self.displayLog.text stringByAppendingString:@" "];
+    }
+    self.displayLog.text =
+        [self.displayLog.text stringByAppendingString:anOperatorOrOperand];
+}
+
+- (IBAction)digitPressed:(UIButton *)sender {
+    NSString *digit = sender.currentTitle;
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        if ([digit compare: @"."] != NSOrderedSame
+                || [self.display.text rangeOfString: @"."].location == NSNotFound) {
+             self.display.text = [self.display.text stringByAppendingString: digit];
+             
+        }
+    } else {
+        self.userIsInTheMiddleOfEnteringANumber = YES;
+        self.displayEqual.text = @"";
+        self.display.text = digit;
+    }
+}
+
+- (IBAction)backPressed {
+    if (self.userIsInTheMiddleOfEnteringANumber == YES) {
+        NSString *newDisplay =
+            [self.display.text substringToIndex:self.display.text.length - 1];
+        if (newDisplay.length == 0) {
+            [self runProgram];
+            self.userIsInTheMiddleOfEnteringANumber = NO;
+        } else {
+            self.display.text = newDisplay;
+            self.displayEqual.text = @"";
+        }
+    } else {
+        [self.brain popOperand];
+        [self runProgram];
+    }
+}
+
+- (IBAction)clearPressed {
+    self.display.text = @"0";
+    self.userIsInTheMiddleOfEnteringANumber = NO;
+    [self.brain clearOperands];
+    self.displayLog.text = @"";
+    self.displayEqual.text = @"";
+    [self displayVariablesToScreen];
+}
+
+- (IBAction)enterPressed {
+    [self.brain pushOperandOrOperator:self.display.text];
+    self.userIsInTheMiddleOfEnteringANumber = NO;
+    [self displayEquation:self.display.text];
+    self.displayLog.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    self.displayEqual.text = @"";    
+}
+
+- (IBAction)changeVariablesPressed:(UIButton *)sender {
+    NSString *testVarName = sender.currentTitle;
+    if ([testVarName isEqualToString: @"Test1"]) {
+        self.variableValues = self.variableValuesTest1;
+    } else if ([testVarName isEqualToString: @"Test2"]) {
+        self.variableValues = self.variableValuesTest2;
+    } else if ([testVarName isEqualToString: @"Test3"]) {
+        self.variableValues = self.variableValuesTest3;
+    }
+    [self runProgram];    
+}
+
+- (IBAction)variablePressed:(UIButton *)sender {
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        [self enterPressed];
+    }
+    NSString *var = sender.currentTitle;
+    [self.brain pushOperandOrOperator:var];
+    self.display.text = var;
+    self.displayLog.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    [self displayVariablesToScreen];
+}
+
+- (IBAction)operationPressed:(UIButton *)sender {
+    if (self.userIsInTheMiddleOfEnteringANumber) {
+        [self enterPressed];
+    }
+    NSString *operation = sender.currentTitle;
+    [self.brain pushOperandOrOperator:operation];
+    [self runProgram];
+}
+
+- (void)runProgram {
+    double result = [[self.brain class] runProgram:[self.brain program]
+                               usingVariableValues:self.variableValues];
+    self.display.text = [NSString stringWithFormat:@"%g", result];
+    self.displayLog.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    self.displayEqual.text = @"=";
+    [self displayVariablesToScreen];
+}
+
+- (void)displayVariablesToScreen {
+    NSSet *varSet = [[self.brain class] variablesUsedInProgram:[self.brain program]];
+    NSString *variableOutput = @"";
+    NSNumber *num;
+    
+    if (varSet) {
+        for (NSString *var in varSet){
+            num = [self.variableValues valueForKey:var];
+            if (num) {
+                if (variableOutput.length > 0) {
+                    variableOutput = [variableOutput stringByAppendingString:@" "];
+                }
+                variableOutput = [variableOutput stringByAppendingFormat:@"%@ = %@", var, num];
+            }
+        }
+    }
+    self.displayVariables.text = variableOutput;
+}
+@end
