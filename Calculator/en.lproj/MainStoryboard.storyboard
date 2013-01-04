@@ -17,7 +17,29 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zpk-TK-5D3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-241" y="-282"/>
+            <point key="canvasLocation" x="-319" y="-282"/>
+        </scene>
+        <!--Graph View Controller - Graph-->
+        <scene sceneID="Lt5-tg-iqX">
+            <objects>
+                <viewController id="M8Y-Xv-2KJ" customClass="GraphViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="dI7-cv-KCv">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="zvl-z9-FPC">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Graph" id="6PL-8T-vAi"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YCB-EN-3mU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="566" y="-266"/>
         </scene>
         <!--Calculator View Controller - Calculator-->
         <scene sceneID="5">
@@ -390,6 +412,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <segue destination="M8Y-Xv-2KJ" kind="push" id="XSh-cK-bQn"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -404,7 +429,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="242" y="-282"/>
+            <point key="canvasLocation" x="142" y="-266"/>
         </scene>
     </scenes>
     <classes>
@@ -416,6 +441,9 @@
                 <relationship kind="outlet" name="displayLog" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="displayVariables" candidateClass="UILabel"/>
             </relationships>
+        </class>
+        <class className="GraphViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
         </class>
     </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
