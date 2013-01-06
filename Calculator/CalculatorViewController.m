@@ -147,6 +147,12 @@
     self.displayVariables.text = variableOutput;
 }
 
+- (IBAction)graphPressed {
+    id detailVC = [self.splitViewController.viewControllers lastObject];
+    [detailVC setBrain:self.brain];
+}
+
+
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Graph"]) {
