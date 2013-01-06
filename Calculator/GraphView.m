@@ -71,6 +71,19 @@
     }
 }
 
+- (void)pan:(UIPanGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateChanged ||
+        gesture.state == UIGestureRecognizerStateChanged) {
+        CGPoint translation = [gesture translationInView:self];
+        CGPoint newPoints;
+        newPoints.x = self.origin.x + translation.x;
+        newPoints.y = self.origin.y + translation.y;
+        self.origin = newPoints;
+        [gesture setTranslation: CGPointZero inView:self];
+    }
+}
+
 - (void)drawRect:(CGRect)rect
 {
     [AxesDrawer drawAxesInRect:self.bounds
@@ -83,9 +96,9 @@
     BOOL startPointSet = NO;
     
     for (CGFloat xPoint = 0.0; xPoint < self.bounds.size.width; xPoint++) {
-        CGFloat x = (xPoint - self.center.x) / self.scale;
+        CGFloat x = (xPoint - self.origin.x) / self.scale;
         CGFloat y = [self.dataSource getPointY:x];
-        CGFloat yPoint = self.center.y - (y * self.scale);
+        CGFloat yPoint = self.origin.y - (y * self.scale);
         if (startPointSet == NO) {
             startPointSet = YES;
             CGContextMoveToPoint(context, xPoint, yPoint);

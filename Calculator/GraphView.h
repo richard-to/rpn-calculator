@@ -21,4 +21,5 @@
 @property (nonatomic, weak) IBOutlet id <GraphDataSource> dataSource;
 
 - (void)pinch:(UIPinchGestureRecognizer *)gesture;
+- (void)pan:(UIPanGestureRecognizer *)pan;
 @end
