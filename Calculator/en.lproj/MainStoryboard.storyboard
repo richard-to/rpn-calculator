@@ -36,6 +36,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Graph" id="6PL-8T-vAi"/>
+                    <connections>
+                        <outlet property="graphView" destination="zvl-z9-FPC" id="h9M-ET-bmK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YCB-EN-3mU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -413,7 +416,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="M8Y-Xv-2KJ" kind="push" id="XSh-cK-bQn"/>
+                                    <segue destination="M8Y-Xv-2KJ" kind="push" identifier="Graph" id="XSh-cK-bQn"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -432,23 +435,6 @@
             <point key="canvasLocation" x="142" y="-266"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="CalculatorViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/CalculatorViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="display" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="displayEqual" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="displayLog" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="displayVariables" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="GraphView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphView.h"/>
-        </class>
-        <class className="GraphViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/GraphViewController.h"/>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
