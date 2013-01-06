@@ -18,11 +18,12 @@
 
 @synthesize brain = _brain;
 @synthesize graphView = _graphView;
+@synthesize equationLabel = _equationLabel;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    self.equationLabel.text = [[self.brain class] descriptionOfProgram:self.brain.program];
 }
 
 - (void)setBrain:(CalculatorBrain *)brain

@@ -10,5 +10,6 @@
 #import "CalculatorBrain.h"
 
 @interface GraphViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *equationLabel;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @end
