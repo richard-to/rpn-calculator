@@ -84,6 +84,11 @@
     }
 }
 
+- (void)tap:(UITapGestureRecognizer *)gesture
+{
+    self.origin = [gesture locationInView:self];
+}
+
 - (void)drawRect:(CGRect)rect
 {
     [AxesDrawer drawAxesInRect:self.bounds
