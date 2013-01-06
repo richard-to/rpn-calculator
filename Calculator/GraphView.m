@@ -13,8 +13,9 @@
 
 @synthesize dataSource = _dataSource;
 @synthesize scale = _scale;
+@synthesize origin = _origin;
 
-#define DEFAULT_SCALE 1.00
+#define DEFAULT_SCALE 1.0
 
 - (CGFloat)scale
 {
@@ -27,6 +28,7 @@
 
 - (void)setup
 {
+    _origin = self.center;
     self.contentMode = UIViewContentModeRedraw;
 }
 
@@ -47,7 +49,7 @@
 - (void)drawRect:(CGRect)rect
 {
     [AxesDrawer drawAxesInRect:self.bounds
-                 originAtPoint:self.center
+                 originAtPoint:self.origin
                          scale:self.scale];
     CGContextRef context = UIGraphicsGetCurrentContext();
     UIGraphicsPushContext(context);
@@ -56,9 +58,9 @@
     BOOL startPointSet = NO;
     
     for (CGFloat xPoint = 0.0; xPoint < self.bounds.size.width; xPoint++) {
-        CGFloat x = xPoint - self.center.x;
+        CGFloat x = (xPoint - self.center.x) / self.scale;
         CGFloat y = [self.dataSource getPointY:x];
-        CGFloat yPoint = self.center.y - y;
+        CGFloat yPoint = self.center.y - (y * self.scale);
         if (startPointSet == NO) {
             startPointSet = YES;
             CGContextMoveToPoint(context, xPoint, yPoint);
