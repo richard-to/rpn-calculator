@@ -7,21 +7,17 @@
 //
 
 #import "GraphViewController.h"
+#import "GraphView.h"
+#import "CalculatorBrain.h"
 
-@interface GraphViewController ()
-
+@interface GraphViewController () <GraphDataSource>
+@property (nonatomic, weak) IBOutlet GraphView *graphView;
 @end
 
 @implementation GraphViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize brain = _brain;
+@synthesize graphView = _graphView;
 
 - (void)viewDidLoad
 {
@@ -29,10 +25,24 @@
 	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
+- (void)setBrain:(CalculatorBrain *)brain
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    _brain = brain;
+    [self.graphView setNeedsDisplay];
+}
+
+- (void)setGraphView:(GraphView *)graphView
+{
+    _graphView = graphView;
+    self.graphView.dataSource = self;
+}
+
+- (float)getPointY:(float)pointX
+{
+    NSDictionary *varDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                             [NSNumber numberWithFloat: pointX], @"x", nil];
+    return [[self.brain class] runProgram:self.brain.program
+                   usingVariableValues:varDict];
 }
 
 @end
