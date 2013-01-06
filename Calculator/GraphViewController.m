@@ -24,6 +24,8 @@
 @synthesize equationLabel = _equationLabel;
 @synthesize origin = _origin;
 @synthesize scale = _scale;
+@synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
+@synthesize toolBar = _toolBar;
 
 - (void)viewDidLoad
 {
@@ -43,6 +45,22 @@
     }
     
     self.equationLabel.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+}
+
+- (void)handleSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    NSMutableArray *toolbarItems = [self.toolBar.items mutableCopy];
+    if (_splitViewBarButtonItem) [toolbarItems removeObject:_splitViewBarButtonItem];
+    if (splitViewBarButtonItem) [toolbarItems insertObject:splitViewBarButtonItem atIndex:0];
+    self.toolBar.items = toolbarItems;
+    _splitViewBarButtonItem = splitViewBarButtonItem;
+}
+
+- (void)setSplitViewBarButtonItem:(UIBarButtonItem *)splitViewBarButtonItem
+{
+    if (splitViewBarButtonItem != _splitViewBarButtonItem) {
+        [self handleSplitViewBarButtonItem:splitViewBarButtonItem];
+    }
 }
 
 - (void)setBrain:(CalculatorBrain *)brain

@@ -9,7 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "CalculatorBrain.h"
 
-@interface GraphViewController : UIViewController
+@protocol SplitViewBarButtonItemPresenter <NSObject>
+@property (nonatomic, strong) UIBarButtonItem *splitViewBarButtonItem;
+@end
+
+@interface GraphViewController : UIViewController <SplitViewBarButtonItemPresenter>
+@property (weak, nonatomic) IBOutlet UIToolbar *toolBar;
 @property (weak, nonatomic) IBOutlet UILabel *equationLabel;
 @property (nonatomic, strong) CalculatorBrain *brain;
 @end
