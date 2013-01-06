@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class GraphView;
+
+@protocol GraphDataSource
+- (float)getPointY:(float)pointX;
+@end
+
 @interface GraphView : UIView
 
 @property (nonatomic) CGFloat scale;
-
+@property (nonatomic, weak) IBOutlet id <GraphDataSource> dataSource;
 @end
