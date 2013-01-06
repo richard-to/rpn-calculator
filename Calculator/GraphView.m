@@ -26,6 +26,22 @@
     }
 }
 
+- (void)setScale:(CGFloat)scale
+{
+    if (scale != _scale) {
+        _scale = scale;
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)setOrigin:(CGPoint)origin
+{
+    if (origin.x != _origin.x || origin.y != _origin.y) {
+        _origin = origin;
+        [self setNeedsDisplay];
+    }
+}
+
 - (void)setup
 {
     _origin = self.center;
@@ -44,6 +60,15 @@
         [self setup];
     }
     return self;
+}
+
+- (void)pinch:(UIPinchGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateChanged ||
+       gesture.state == UIGestureRecognizerStateEnded) {
+        self.scale *= gesture.scale;
+        gesture.scale = 1;
+    }
 }
 
 - (void)drawRect:(CGRect)rect
