@@ -199,4 +199,10 @@
         [segue.destinationViewController setBrain:self.brain];
     }
 }
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskAll;
+}
+
 @end
