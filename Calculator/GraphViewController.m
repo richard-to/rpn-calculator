@@ -29,12 +29,20 @@
 {
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.scale = [defaults floatForKey:@"graphScale"];
-    [self setOriginX:[defaults floatForKey:@"graphOriginX"]
-                andY:[defaults floatForKey:@"graphOriginY"]];
+    
+    if ([defaults objectForKey:@"graphScale"] != nil) {
+        self.scale = [defaults floatForKey:@"graphScale"];
+        self.graphView.scale = self.scale;
+    }
+    
+    if ([defaults objectForKey:@"graphOriginX"] != nil &&
+        [defaults objectForKey:@"graphOriginY"] != nil) {
+        [self setOriginX:[defaults floatForKey:@"graphOriginX"]
+                    andY:[defaults floatForKey:@"graphOriginY"]];
+        self.graphView.origin = self.origin;
+    }
+    
     self.equationLabel.text = [[self.brain class] descriptionOfProgram:self.brain.program];
-    self.graphView.scale = self.scale;
-    self.graphView.origin = self.origin;
 }
 
 - (void)setBrain:(CalculatorBrain *)brain
