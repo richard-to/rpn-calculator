@@ -8,6 +8,7 @@
 
 #import "CalculatorViewController.h"
 #import "CalculatorBrain.h"
+#import "GraphViewController.h"
 
 @interface CalculatorViewController ()
 
@@ -144,5 +145,12 @@
         }
     }
     self.displayVariables.text = variableOutput;
+}
+
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"Graph"]) {
+        [segue.destinationViewController setBrain:self.brain];
+    }
 }
 @end
