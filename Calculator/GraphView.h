@@ -12,6 +12,10 @@
 
 @protocol GraphDataSource
 - (float)getPointY:(float)pointX;
+
+@optional
+- (void)onUpdateOrigin:(CGPoint)origin;
+- (void)onUpdateScale:(float)scale;
 @end
 
 @interface GraphView : UIView

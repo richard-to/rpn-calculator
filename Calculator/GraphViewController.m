@@ -12,6 +12,9 @@
 
 @interface GraphViewController () <GraphDataSource>
 @property (nonatomic, weak) IBOutlet GraphView *graphView;
+@property (nonatomic) CGPoint origin;
+@property (nonatomic) CGFloat scale;
+- (void)setOriginX:(float)xPoint andY:(float)yPoint;
 @end
 
 @implementation GraphViewController
@@ -19,17 +22,53 @@
 @synthesize brain = _brain;
 @synthesize graphView = _graphView;
 @synthesize equationLabel = _equationLabel;
+@synthesize origin = _origin;
+@synthesize scale = _scale;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    self.scale = [defaults floatForKey:@"graphScale"];
+    [self setOriginX:[defaults floatForKey:@"graphOriginX"]
+                andY:[defaults floatForKey:@"graphOriginY"]];
     self.equationLabel.text = [[self.brain class] descriptionOfProgram:self.brain.program];
+    self.graphView.scale = self.scale;
+    self.graphView.origin = self.origin;
 }
 
 - (void)setBrain:(CalculatorBrain *)brain
 {
     _brain = brain;
     [self.graphView setNeedsDisplay];
+}
+
+- (void)setScale:(CGFloat)scale
+{
+    if (scale != _scale) {
+        _scale = scale;
+        [[NSUserDefaults standardUserDefaults] setFloat:_scale
+                                                forKey:@"graphScale"];
+    }
+}
+
+- (void)setOriginX:(float)xPoint andY:(float)yPoint
+{
+    CGPoint origin;
+    origin.x = xPoint;
+    origin.y = yPoint;
+    self.origin = origin;
+}
+
+- (void)setOrigin:(CGPoint)origin
+{
+    if (origin.x != _origin.x || origin.y != _origin.y) {
+        _origin = origin;
+        [[NSUserDefaults standardUserDefaults] setFloat:_origin.x
+                                                 forKey:@"graphOriginX"];
+        [[NSUserDefaults standardUserDefaults] setFloat:_origin.y
+                                                 forKey:@"graphOriginY"];
+    }
 }
 
 - (void)setGraphView:(GraphView *)graphView
@@ -53,4 +92,13 @@
                    usingVariableValues:varDict];
 }
 
+- (void)onUpdateOrigin:(CGPoint)origin
+{
+    self.origin = origin;
+}
+
+- (void)onUpdateScale:(float)scale
+{
+    self.scale = scale;
+}
 @end

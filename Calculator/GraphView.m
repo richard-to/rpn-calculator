@@ -19,7 +19,7 @@
 
 - (CGFloat)scale
 {
-    if ( !_scale) {
+    if (!_scale) {
         return DEFAULT_SCALE;
     } else {
         return _scale;
@@ -31,6 +31,7 @@
     if (scale != _scale) {
         _scale = scale;
         [self setNeedsDisplay];
+        [self.dataSource onUpdateScale:_scale];
     }
 }
 
@@ -39,6 +40,7 @@
     if (origin.x != _origin.x || origin.y != _origin.y) {
         _origin = origin;
         [self setNeedsDisplay];
+        [self.dataSource onUpdateOrigin:_origin];
     }
 }
 
